@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_matrixmultiplier" default="compile.module.matrixmultiplier">
+  <dirname property="module.matrixmultiplier.basedir" file="${ant.file.module_matrixmultiplier}"/>
+  
+  <property name="module.jdk.home.matrixmultiplier" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.matrixmultiplier" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.matrixmultiplier" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.matrixmultiplier" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="matrixmultiplier.output.dir" value="${module.matrixmultiplier.basedir}/out/production/matrixMultiplier"/>
+  <property name="matrixmultiplier.testoutput.dir" value="${module.matrixmultiplier.basedir}/out/test/matrixMultiplier"/>
+  
+  <path id="matrixmultiplier.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="matrixmultiplier.module.production.classpath">
+    <path refid="${module.jdk.classpath.matrixmultiplier}"/>
+  </path>
+  
+  <path id="matrixmultiplier.runtime.production.module.classpath">
+    <pathelement location="${matrixmultiplier.output.dir}"/>
+  </path>
+  
+  <path id="matrixmultiplier.module.classpath">
+    <path refid="${module.jdk.classpath.matrixmultiplier}"/>
+    <pathelement location="${matrixmultiplier.output.dir}"/>
+  </path>
+  
+  <path id="matrixmultiplier.runtime.module.classpath">
+    <pathelement location="${matrixmultiplier.testoutput.dir}"/>
+    <pathelement location="${matrixmultiplier.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.matrixmultiplier">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.matrixmultiplier">
+    <patternset refid="excluded.from.module.matrixmultiplier"/>
+  </patternset>
+  
+  <path id="matrixmultiplier.module.sourcepath">
+    <dirset dir="${module.matrixmultiplier.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.matrixmultiplier" depends="compile.module.matrixmultiplier.production,compile.module.matrixmultiplier.tests" description="Compile module matrixMultiplier"/>
+  
+  <target name="compile.module.matrixmultiplier.production" depends="register.custom.compilers" description="Compile module matrixMultiplier; production classes">
+    <mkdir dir="${matrixmultiplier.output.dir}"/>
+    <javac2 destdir="${matrixmultiplier.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.matrixmultiplier}/javac">
+      <compilerarg line="${compiler.args.matrixmultiplier}"/>
+      <bootclasspath refid="matrixmultiplier.module.bootclasspath"/>
+      <classpath refid="matrixmultiplier.module.production.classpath"/>
+      <src refid="matrixmultiplier.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.matrixmultiplier"/>
+    </javac2>
+    
+    <copy todir="${matrixmultiplier.output.dir}">
+      <fileset dir="${module.matrixmultiplier.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.matrixmultiplier.tests" depends="register.custom.compilers,compile.module.matrixmultiplier.production" description="compile module matrixMultiplier; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.matrixmultiplier" description="cleanup module">
+    <delete dir="${matrixmultiplier.output.dir}"/>
+    <delete dir="${matrixmultiplier.testoutput.dir}"/>
+  </target>
+</project>

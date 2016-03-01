@@ -14,9 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent inputScreen = FXMLLoader.load(getClass().getResource("input.fxml"));
-        Parent outputScreen = FXMLLoader.load(getClass().getResource("output.fxml"));
         Scene inputScene = new Scene(inputScreen, 600, 400);
-        Scene outputScene = new Scene(outputScreen, 600, 400);
         stage.setTitle("The Matrix Multiplier");
         stage.setScene(inputScene);
         stage.show();
